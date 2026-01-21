@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: api
+    ports:
+      - "8080:8080"
+    restart: on-failure
+    environment:
+      - DB_DSN=gmonitor.db
+      - SERVER_PORT=8080
+      - GITHUB_TOKEN=
+      - REDIS_HOST=redis:6379
+      - REDIS_PASSWORD=
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: always
+    command: redis-server --requirepass ""
